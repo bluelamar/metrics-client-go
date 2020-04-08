@@ -8,6 +8,46 @@ The backend targets are configurable and the package comes with builtin targets 
 However, the user may specify their own backend target.
 
 There are default common metrics supported via simple API.
-1. memory usage
-2. disk usage
-3. resource usage
+1. memory usage: func UpdateMemoryUsage()
+2. disk usage: func UpdateDiskUsage()
+3. resource usage: func UpdateResourceUsage()
+
+## Example Usage
+
+```
+type Logger interface {
+  LogError(msg string)
+}
+type LogHandler struct {
+  prefix string
+}
+
+func(fh *LogHandler) LogError(msg string) {
+  fmt.Println(fh.prefix, msg);
+}
+
+func main() {
+  logHandler := &LogHandler{prefix: "debug: "}
+  metrics.InitStats("mysvc", 5, 1000, logHandler)
+
+  metrics.RegisterStat("GET", Counter, nil)
+  metrics.RegisterStat(("under500ms", Percentile, 500)
+  metrics.RegisterStat(("errors", Percentile, 0)
+  metrics.RegisterStat(("success", Percentile, 0)
+  ...
+}
+
+func Get() err {
+  metrics.UpdateStat("GET", 1)
+  ...
+  if (err != nil) {
+    metrics.UpdateStat("errors", 1) // 1 > 0 == error
+    return err
+  }
+  
+  metrics.UpdateStat("errors", -) // -1 < 0 == no error
+  ...
+}
+```
+
+
