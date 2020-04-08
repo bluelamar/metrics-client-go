@@ -12,6 +12,21 @@ There are default common metrics supported via simple API.
 2. disk usage: func UpdateDiskUsage()
 3. resource usage: func UpdateResourceUsage()
 
+## Types of Metrics Supported
+
+Accumulator: accumulates sum of all values added during the time slice
+- ex: number times method type called
+- ex: method total exec millis
+
+Average: average is calculated for all values added during the time slice
+- ex: method exec time millis
+
+Percentile: percentage is calculated for all values added during the time slice
+- ex: requests timed, percentage of those below a limit
+
+Snapshot: value recorded at a moment in time
+- ex: memory usage of the server
+
 ## Example Usage
 
 ```
