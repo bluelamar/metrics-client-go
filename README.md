@@ -15,8 +15,8 @@ There are default common metrics supported via simple API.
 ## Types of Metrics Supported
 
 **Accumulator**: accumulates sum of all values added during the time slice
-- ex: number times method type called
-- ex: method total exec millis
+- ex: number times a method called
+- ex: total exec millis a method has run
 
 **Average**: average is calculated for all values added during the time slice
 - ex: method exec time millis
@@ -45,24 +45,25 @@ func main() {
   logHandler := &LogHandler{prefix: "debug: "}
   metrics.InitStats("mysvc", 5, 1000, logHandler)
 
-  metrics.RegisterStat("GET", Accumulator, nil)
+  metrics.RegisterStat("HTTP.GET", Accumulator, nil)
+  metrics.RegisterStat("Method.Get", Average, nil)
   metrics.RegisterStat(("under500ms", Percentile, 500)
-  metrics.RegisterStat(("errors", Percentile, 0)
-  metrics.RegisterStat(("success", Percentile, 0)
+  metrics.RegisterStat(("Total.errors", Percentile, 0)
+  metrics.RegisterStat(("Total.success", Percentile, 0)
   ...
 }
 
 func Get() err {
-  metrics.UpdateStat("GET", 1)
-  timer := metrics.StartTimerNanos("Get")
+  metrics.UpdateStat("HTTP.GET", 1)
+  timer := metrics.StartTimerNanos("Method.Get")
   defer metrics.EndTimer(timer)
   ...
   if (err != nil) {
-    metrics.UpdateStat("errors", 1) // 1 > 0 == error
+    metrics.UpdateStat("Total.errors", 1) // 1 > 0 == error
     return err
   }
   
-  metrics.UpdateStat("errors", -) // -1 < 0 == no error
+  metrics.UpdateStat("Total.errors", -1) // -1 < 0 == no error
   ...
 }
 ```
