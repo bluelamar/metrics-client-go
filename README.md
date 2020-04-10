@@ -1,16 +1,18 @@
 # metrics-client-go
 A metrics client API that can send metric records to configurable backend target
 
-The client provides API for an application to update statistics during its runtime.
-These updates are reported at end of time windows. Whereupon the stats are sent to the target server or file.
+This client provides API for an application to update statistics during its runtime.
+These updates are reported at end of configurable time windows. Whereupon the stats are sent to the target server or file.
 
 The backend targets are configurable and the package comes with builtin targets for directory and Cassandra.
 However, the user may specify their own backend target.
 
-There are default common metrics supported via simple API.
+This provides a generic API for user defined metrics, as well as some API commonly used by applications.
+Common metrics are supported via simple API.
 1. memory usage: func UpdateMemoryUsage()
 2. disk usage: func UpdateDiskUsage()
 3. resource usage: func UpdateResourceUsage()
+4. timing, latency: func StartTimerNanos(), func StartTimerMillis(), func EndTimer(*Timer)
 
 ## Types of Metrics Supported
 
