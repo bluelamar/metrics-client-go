@@ -54,6 +54,8 @@ func main() {
 
 func Get() err {
   metrics.UpdateStat("GET", 1)
+  timer := metrics.StartTimerNanos("Get")
+  defer metrics.EndTimer(timer)
   ...
   if (err != nil) {
     metrics.UpdateStat("errors", 1) // 1 > 0 == error
