@@ -8,7 +8,10 @@ The backend targets are configurable and the package comes with builtin targets 
 However, the user may specify their own backend target.
 
 This provides a generic API for user defined metrics, as well as some API commonly used by applications.
-Common metrics are supported via simple API.
+The generic API are:
+1. func UpdateStat(name, value)
+
+Common metrics are supported via simple API:
 1. memory usage: func UpdateMemoryUsage()
 2. disk usage: func UpdateDiskUsage()
 3. resource usage: func UpdateResourceUsage()
